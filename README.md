@@ -14,7 +14,7 @@ There's no standard syntax for declarative IaC. The syntax for describing IaC us
 
 ## Why Insfrastructure as Code?
 
-![](https://pics.freeicons.io/uploads/icons/png/13270834371639572784-512.png){:height="15px" width="15px"} Remove the human element and reliably and repeatable deploy every time. Avoid configuration drift.
+<img src="https://pics.freeicons.io/uploads/icons/png/13270834371639572784-512.png" style="height: 20px; width:20px;"/> Remove the human element and reliably and repeatable deploy every time. Avoid configuration drift.
 
 
 
