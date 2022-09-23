@@ -1,27 +1,44 @@
-terraform {
-  required_version = ">=0.12"
+# GET: Current Azure RM context details
+data "azurerm_client_config" "current" {}
 
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~>2.0"
+data "azurerm_resource_group" "tfstate" {
+  name      = local.tf_resource_group_name
+}
+
+# CREATE: Resource Group
+resource "azurerm_resource_group" "this" {
+  name      = local.rg_name
+  location  = var.location
+  tags = merge(
+    local.common_tags, 
+    {
+        created  = formatdate("DD MMM YYYY hh:mm ZZZ", timestamp())
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~>3.0"
-    }
+  )
+  
+  lifecycle {
+    ignore_changes = [
+      tags["created"],
+    ]
   }
 }
 
-provider "azurerm" {
-  features {}
+# GET: Configuration cloudinit file.
+data "template_file" "cloudinit" {
+  template = file("${path.module}/scripts/cloudinit.sh")
 }
 
-resource "random_pet" "rg_name" {
-  prefix = var.resource_group_name_prefix
+data "template_cloudinit_config" "config" {
+  gzip          = true
+  base64_encode = true
+
+  part {
+    content = data.template_file.cloudinit.rendered
+  }
 }
 
-resource "azurerm_resource_group" "rg" {
-  location = var.resource_group_location
-  name     = random_pet.rg_name.id
+# CREATE: Private/Public SSH Key for Linux Virtual Machine or VMSS
+resource "tls_private_key" "this" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
 }
