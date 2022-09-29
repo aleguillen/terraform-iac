@@ -90,6 +90,56 @@ Terraform can **import existing infrastructure resources**. This functionality a
 
 > **_NOTE:_** The terraform import command can only import one resource at a time. 
 
+When importing a resource you will need to know the Terraform Address. For more information see [here](https://www.terraform.io/cli/state/resource-addressing).
+
+```terraform
+resource_type.resource_name[instance index]
+```
+
+- *resource_type* - Type of the resource being addressed.
+- *resource_name* - User-defined name of the resource.
+- *[instance index]* - (Optional) Index to select an instance from a resource that has multiple instances, surrounded by square bracket characters ([ and ]).
+
+Example:
+
+```terraform
+# CREATES Single Resource Group
+resource "azurerm_resource_group" "example" {
+  name     = "myResourceGroup"
+  location = "southcentralus"
+}
+
+# CREATES Multiple Resource Groups using Count: https://www.terraform.io/language/meta-arguments/count 
+resource "azurerm_resource_group" "example" {
+  count = 2   
+  name     = "myResourceGroup${count.index}"
+  location = "southcentralus"
+}
+
+# CREATES Multiple Resource Groups using For_each: https://www.terraform.io/language/meta-arguments/for_each 
+resource "azurerm_resource_group" "example" {
+  for_each = {
+    "one": "myResourceGroupOne",
+    "two":  "myResourceGroupTwo",
+  }
+  name     = each.value
+  location = "southcentralus"
+}
+```
+Terraform Addresses will be as follows:
+
+```terraform
+azurerm_resource_group.example
+azurerm_resource_group.example[1]
+azurerm_resource_group.example["two"]
+```
+
+Here are the command to import each one of those resources into a Terraform State file.
+```bash
+terraform import azurerm_resource_group.example /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup
+terraform import azurerm_resource_group.example[1] /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup1
+terraform import azurerm_resource_group.example["two"] /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroupTwo
+```
 
 ## Terraform Configuration Language
 
@@ -334,7 +384,7 @@ We are going to create and manage a simple Virtual Machine (VM), and its compone
 
 You can install Terraform on your local computer and follow this step-by-step demo. Alteranatively you can use [Azure Cloud Shell](https://shell.azure.com) using Bash environment which has Terraform already installed.. To learn how to set it up see [here](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart). 
 
-> **_TIP:_** To paste in Cloud Shell run: Ctrl + Shift + V.
+> **_TIP:_** To paste in Cloud Shell run: Shift + Insert. For more info see [here](https://learn.microsoft.com/en-us/azure/cloud-shell/using-the-shell-window#copy-and-paste)
 
 ## Set your environment
 ```bash
