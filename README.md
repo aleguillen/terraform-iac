@@ -74,6 +74,8 @@ When working with Terraform in a team, use of a local file makes Terraform usage
 
 With remote state, **Terraform writes the state data to a remote data store**, which can then be shared between all members of a team. Terraform supports storing state in Terraform Cloud, HashiCorp Consul, **Azure Blob Storage**, Amazon S3, Google Cloud Storage, and more.
 
+![](/.img/TerraformState.png)
+
 ### Sensitive Data
 **Terraform state can contain sensitive data**, depending on the resources in use and your definition of "sensitive." The state contains resource IDs and all resource attributes. For resources such as databases, this may contain initial passwords.
 
@@ -83,6 +85,8 @@ When using remote state, state is only ever held in memory when used by Terrafor
 
 ### Import Existing Resources 
 Terraform can **import existing infrastructure resources**. This functionality allows you take resources you created by some other means and **bring them under Terraform management**.
+
+![](/.img/TerraformImport.png)
 
 > **_NOTE:_** The terraform import command can only import one resource at a time. 
 
@@ -294,7 +298,7 @@ output "rg_resource_id" {
 
 ### Expressions examples:
 
-- **[Conditional Expressions](https://www.terraform.io/language/expressions/conditionals)** documents the <CONDITION> ? <TRUE VAL> : <FALSE VAL> expression, which chooses between two values based on a bool condition.
+- **[Conditional Expressions](https://www.terraform.io/language/expressions/conditionals)** documents the [CONDITION] ? [TRUE VAL] : [FALSE VAL] expression, which chooses between two values based on a bool condition.
 
 **[For Expressions](https://www.terraform.io/language/expressions/for)** documents expressions like [for s in var.list : upper(s)], which can transform a complex type value into another complex type value.
 
