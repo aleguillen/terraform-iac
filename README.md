@@ -376,6 +376,7 @@ output "rg_resource_id" {
 | terraform fmt | Rewrites config files to canonical format |
 | terraform output | Read an output from a state file |
 | terraform console | Interactive console for Terraform interpolations |
+| terraform state | Advanced state management |
 
 
 # Lab 
