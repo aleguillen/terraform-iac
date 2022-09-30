@@ -1,11 +1,11 @@
-| Abbreviation | Meaning |
+| Acronym | Meaning |
 | ------------ | ------- |
 | IaC | Infrastructure as Code |
 | VCS | Version Control Systems |
 
-# Other relevant abbreviations
+# Other relevant acronyms
 
-| Abbreviation | Meaning |
+| Acronym | Meaning |
 | ------------ | ------- |
 | IaaS | Infrastructure as a Service |
 | PaaS | Platform as a Service |
